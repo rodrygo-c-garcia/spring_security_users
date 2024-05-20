@@ -72,7 +72,7 @@ public class SpringSecurityApplication {
             // Creamos los usuarios
             UserEntity userAndrea = UserEntity.builder()
                     .username("Andrea Magalles")
-                    .password("$2a$10$FeTzWqB8spJPD69PPchpfOgVUWV/egUkdpxvL9WIVh2rhZwjnFXfK") // 12345
+                    .password("$2a$10$cu.UV8bJ.Q3mtiO94cPlKezmo1dMoyB29X/tRoiqKUM2/CVxx3jI2") // 12345
                     .isEnable(true)
                     .accountNoExpired(true)
                     .accountNoLocked(true)
