@@ -70,7 +70,7 @@ Este repositorio proporciona un ejemplo práctico de cómo implementar seguridad
 ## Uso
 
 - **Acceder a la Aplicación**: Navegar a `http://localhost:8080`.
-- **Gestionar Usuarios y Roles**: Utilizar los endpoints proporcionados para gestionar usuarios, roles y permisos.
+- **Gestionar Usuarios y Roles**: Usando la herramienta`Postman` utilizar los endpoints proporcionados para gestionar usuarios, roles y permisos.
 
 ## Contribuciones
 
