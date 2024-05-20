@@ -16,6 +16,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
@@ -42,6 +43,9 @@ public class SecurityConfigure {
                     http.requestMatchers(HttpMethod.GET, "/api/v1/test/greeting").permitAll();
                     // recursos protegidos
                     http.requestMatchers(HttpMethod.GET, "/api/v1/test/data").hasAuthority("write");
+                    http.requestMatchers(HttpMethod.PATCH, "/api/v1/test/refactor").hasAnyAuthority("WRITE", "REFACTOR");
+                    // acceder por roles
+                    http.requestMatchers(HttpMethod.PATCH, "/api/v1/test/refactor").hasRole("DEVELOPER");
                     // recursos no especificados
                     http.anyRequest().denyAll();
                 })
@@ -74,8 +78,7 @@ public class SecurityConfigure {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return NoOpPasswordEncoder.getInstance();
+        return new BCryptPasswordEncoder();
     }
-
 
 }
