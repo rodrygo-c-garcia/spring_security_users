@@ -5,31 +5,45 @@ Este repositorio proporciona un ejemplo práctico de cómo implementar seguridad
 ## Características
 
 - **Usuarios y Roles**: Cada usuario puede tener uno o varios roles, y cada rol puede tener uno o varios permisos asociados.
-- **Control de Acceso**: Utiliza Spring Security para controlar el acceso a los recursos de la aplicación.
+- **Control de Acceso**: Utiliza Spring Security para controlar el acceso a los recursos de la aplicación mediante anotaciones y configuración de seguridad.
 - **Cadena de Filtros**: Implementación de una cadena de filtros para procesar las solicitudes entrantes.
 - **Proveedor de Autenticación**: Uso de `DaoAuthenticationProvider` para autenticar usuarios mediante su nombre de usuario, con los datos almacenados en una base de datos MySQL.
 - **Encriptación de Contraseñas**: Las contraseñas de los usuarios se encriptan utilizando `BCryptPasswordEncoder`.
 
 ## Tecnologías Utilizadas
 
-- **Spring Framework**
+- **Spring Boot**
 - **Spring Security**
 - **MySQL**
 - **BCrypt**
 
 ## Descripción Detallada
 
-### Cadena de Filtros
+### Entidades
 
-La aplicación utiliza una cadena de filtros (`FilterChain`) en Spring Security para interceptar y procesar las solicitudes HTTP. Los filtros se configuran para autenticar y autorizar las solicitudes basadas en los roles y permisos de los usuarios.
+- **UserEntity**: Representa a un usuario en la aplicación. Cada usuario tiene un conjunto de roles, que se representan mediante la entidad `RolesEntity`.
+- **RolesEntity**: Representa un rol que puede tener un usuario. Cada rol tiene un conjunto de permisos, que se representan mediante la entidad `PermissionEntity`.
+- **PermissionEntity**: Representa un permiso que puede tener un rol.
 
-### Proveedor de Autenticación
+### Repositorios
 
-El `DaoAuthenticationProvider` se encarga de autenticar a los usuarios. Este proveedor obtiene los detalles del usuario (incluyendo roles y permisos) desde la base de datos MySQL mediante el nombre de usuario. El proceso de autenticación se configura en el contexto de seguridad de Spring.
+- **UserRepository**: Proporciona métodos para interactuar con la base de datos y buscar usuarios por su nombre de usuario.
 
-### Encriptación de Contraseñas
+### Servicios
 
-Para garantizar la seguridad de las contraseñas, se utiliza `BCryptPasswordEncoder` en la implementación de `PasswordEncoder`. Este enfoque asegura que las contraseñas se almacenen de forma segura en la base de datos, haciendo uso de técnicas de hashing y salting.
+- **UserDetailServiceImpl**: Implementa la interfaz `UserDetailsService` de Spring Security, y se utiliza para cargar los detalles de un usuario durante el proceso de autenticación.
+
+### Controladores
+
+- **TestController**: Maneja las solicitudes HTTP y utiliza anotaciones de Spring Security como `@PreAuthorize` para restringir el acceso a las rutas basándose en los roles y permisos del usuario.
+
+### Configuración de Seguridad
+
+- **SecurityConfigure**: Contiene la configuración de seguridad de la aplicación. Define un `SecurityFilterChain` que especifica cómo se deben manejar las solicitudes HTTP, un `AuthenticationManager` que se utiliza para autenticar las solicitudes, y un `AuthenticationProvider` que utiliza `UserDetailServiceImpl` para cargar los detalles del usuario durante el proceso de autenticación.
+
+### Inicialización de Datos
+
+- **SpringSecurityApplication**: Define un `CommandLineRunner` que se ejecuta al iniciar la aplicación. Este `CommandLineRunner` crea varios usuarios, roles y permisos y los guarda en la base de datos.
 
 ## Instalación y Configuración
 
