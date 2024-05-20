@@ -35,7 +35,7 @@ Para garantizar la seguridad de las contraseñas, se utiliza `BCryptPasswordEnco
 
 1. **Clonar el Repositorio**
     ```bash
-    git clone https://github.com/tu-usuario/tu-repo.git
+    git clone git@github.com:rodrygo-c-garcia/spring_security_users.git
     cd tu-repo
     ```
 
