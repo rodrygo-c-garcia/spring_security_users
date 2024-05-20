@@ -10,6 +10,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import java.util.List;
 import java.util.Set;
 
 @SpringBootApplication
@@ -80,7 +81,7 @@ public class SpringSecurityApplication {
                     .build();
             // Creamos los usuarios
             UserEntity userAngie = UserEntity.builder()
-                    .username("Angie Romero")
+                    .username("Angie")
                     .password("54321")
                     .isEnable(true)
                     .accountNoExpired(true)
@@ -88,7 +89,9 @@ public class SpringSecurityApplication {
                     .credentialNoExpired(true)
                     .roles(Set.of(developerRole))
                     .build();
-            userRepository.saveAll(Set.of(userSantiago, userDaniel, userAndrea, userAngie));
+            userRepository.saveAll(List.of(userSantiago, userDaniel, userAndrea, userAngie));
+
+            System.out.println(userAngie.getRoles());
         };
     }
 }

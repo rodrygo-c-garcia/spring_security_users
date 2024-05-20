@@ -1,5 +1,6 @@
 package com.springsecurity.config;
 
+import com.springsecurity.service.impl.UserDetailServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -64,17 +65,11 @@ public class SecurityConfigure {
     }
 
     @Bean
-    public AuthenticationProvider authenticationProvider() {
+    public AuthenticationProvider authenticationProvider(UserDetailServiceImpl userDetailService) {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setPasswordEncoder(passwordEncoder());
-        provider.setUserDetailsService(null);
+        provider.setUserDetailsService(userDetailService);
         return provider;
-    }
-
-    @Bean
-    public UserDetailsService userDetailsService() {
-        // creamos usuarios en memoria
-        return null;
     }
 
     @Bean

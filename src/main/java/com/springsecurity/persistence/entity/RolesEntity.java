@@ -1,5 +1,6 @@
 package com.springsecurity.persistence.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -32,7 +33,7 @@ public class RolesEntity {
     private Set<PermissionEntity> permissions = new HashSet<>();
 
     // (BIDIRECCIONAL) relacion de muchos a muchos y esta entidad no es la dueña de la relacion
-    @ManyToMany(mappedBy = "roles")
-    private Set<UserEntity> users = new HashSet<>();
+//    @ManyToMany(mappedBy = "roles")
+//    private Set<UserEntity> users = new HashSet<>();
 
 }

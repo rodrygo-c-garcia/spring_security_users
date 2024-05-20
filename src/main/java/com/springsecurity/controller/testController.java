@@ -2,6 +2,7 @@ package com.springsecurity.controller;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,8 +20,14 @@ public class testController {
     }
 
     @GetMapping("/data")
-    @PreAuthorize("hasAuthority('write')")
+    @PreAuthorize("hasAuthority('READ')")
     public String data() {
         return "data 1234";
+    }
+
+    @PatchMapping("/refactor")
+    @PreAuthorize("hasAuthority('REFACTOR')")
+    public String refactor() {
+        return "data refactor";
     }
 }

@@ -23,7 +23,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserEntity userEntity = userRepository.findByUserEntityName(username)
+        UserEntity userEntity = userRepository.findUserEntityByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found " + username));
 
         List<SimpleGrantedAuthority> listAuthorities = new ArrayList<>();
@@ -33,6 +33,23 @@ public class UserDetailServiceImpl implements UserDetailsService {
         userEntity.getRoles().stream()
                 .flatMap(role -> role.getPermissions().stream())
                 .forEach(permission -> listAuthorities.add(new SimpleGrantedAuthority(permission.getName())));
-        return null;
+
+        return new User(userEntity.getUsername(),
+                userEntity.getPassword(),
+                userEntity.isEnable(),
+                userEntity.isAccountNoExpired(),
+                userEntity.isCredentialNoExpired(),
+                userEntity.isAccountNoLocked(),
+                listAuthorities);
     }
 }
+/*
+* SELECT u.username, r.role_name, p.name AS permission_name
+* FROM users u
+* INNER JOIN users_roles ur ON u.id = ur.user_id
+* INNER JOIN roles r ON ur.role_id = r.id
+* INNER JOIN roles_permissions rp ON r.id = rp.role_id
+* INNER JOIN permissions p ON rp.permission_id = p.id;
+*
+*
+* */
