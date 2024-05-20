@@ -1,10 +1,7 @@
 package com.springsecurity.controller;
 
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/test")
@@ -23,6 +20,12 @@ public class testController {
     @PreAuthorize("hasAuthority('READ')")
     public String data() {
         return "data 1234";
+    }
+
+    @PostMapping("/insert")
+    @PreAuthorize("hasRole('USER')")
+    public String insertData() {
+        return "data insert";
     }
 
     @PatchMapping("/refactor")
