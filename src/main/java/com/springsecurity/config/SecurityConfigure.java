@@ -23,6 +23,7 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Configuration
@@ -80,5 +81,16 @@ public class SecurityConfigure {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+/*
+    public static void main(String[] args) {
+        List<Integer> numeros = Arrays.asList(1, 2, 3, 4, 5);
 
+        int sumaCuadradosPares = numeros.stream()
+                .filter(numero -> numero % 2 == 0) // Filtra los números pares
+                .map(numero -> numero * numero) // Calcula el cuadrado de cada número
+                .reduce(0, Integer::sum); // Suma los cuadrados
+        System.out.println("La suma de los cuadrados de los números pares es: " + sumaCuadradosPares);
+
+    }
+    */
 }
