@@ -67,4 +67,11 @@ public class JwtUtil {
             throw new JWTVerificationException("Error decoding JWT: " + exception.getMessage());
         }
     }
+
+    public String extractUsername(DecodedJWT decodedJWT) {
+//        obtenemos el usuario del token
+        return decodedJWT.getSubject().toString();
+    }
+
+    
 }
