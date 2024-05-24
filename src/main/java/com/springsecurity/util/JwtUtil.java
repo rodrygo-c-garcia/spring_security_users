@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 import java.util.Date;
 import java.util.UUID;
 import java.util.stream.Collectors;
+import java.util.Map;
 
 @Component
 public class JwtUtil {
@@ -79,5 +80,7 @@ public class JwtUtil {
         return decodedJWT.getClaim(claim);
     }
 
-
+    public Map<String, Claim> getAllClaims(DecodedJWT decodedJWT) {
+        return decodedJWT.getClaims();
+    }
 }
