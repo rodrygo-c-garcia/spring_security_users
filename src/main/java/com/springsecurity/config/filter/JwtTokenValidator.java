@@ -1,5 +1,6 @@
 package com.springsecurity.config.filter;
 
+import com.auth0.jwt.interfaces.DecodedJWT;
 import com.springsecurity.util.JwtUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -22,8 +23,13 @@ public class JwtTokenValidator extends OncePerRequestFilter {
     protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain) throws ServletException, IOException {
         String jwtToken = request.getHeader(HttpHeaders.AUTHORIZATION);
 
-        if (token != null ) {
+        if (jwtToken != null ) {
             jwtToken = jwtToken.substring(7);
+            DecodedJWT decodedJWT = jwtUtil.validateToken(jwtToken);
+            String username = jwtUtil.extractUsername(decodedJWT);
+            String stringAuthorities = jwtUtil.getSpecificClaim(decodedJWT, "authorities").toString();
+            
+
         }
         filterChain.doFilter(request, response);
     }
