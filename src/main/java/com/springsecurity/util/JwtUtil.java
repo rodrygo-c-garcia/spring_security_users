@@ -56,7 +56,7 @@ public class JwtUtil {
         }
     }
 
-    public DecodedJWT decodeToken(String token) {
+    public DecodedJWT validateToken(String token) {
         try {
             Algorithm algorithm = Algorithm.HMAC256(this.SECRETKEY);
             JWTVerifier  verifier = JWT.require(algorithm)
