@@ -15,10 +15,12 @@ import java.util.List;
 @Service
 public class UserDetailServiceImpl implements UserDetailsService {
     private final UserRepository userRepository;
+    private final JwtUtil jwtUtil;
 
     // inyeccion de dependencia
-    public UserDetailServiceImpl(UserRepository userRepository) {
+    public UserDetailServiceImpl(UserRepository userRepository, JwtUtil jwtUtil) {
         this.userRepository = userRepository;
+        this.jwtUtil = jwtUtil;
     }
 
     @Override
