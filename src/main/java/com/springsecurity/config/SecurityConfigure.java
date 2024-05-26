@@ -1,6 +1,8 @@
 package com.springsecurity.config;
 
+import com.springsecurity.config.filter.JwtTokenValidator;
 import com.springsecurity.service.impl.UserDetailServiceImpl;
+import com.springsecurity.util.JwtUtil;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -30,6 +32,12 @@ import java.util.List;
 @EnableWebSecurity
 @EnableMethodSecurity
 public class SecurityConfigure {
+
+    private JwtUtil jwtUtil;
+
+    public SecurityConfigure(JwtUtil jwtUtil) {
+        this.jwtUtil = jwtUtil;
+    }
 
     // filtros de seguridad
     /*@Bean
