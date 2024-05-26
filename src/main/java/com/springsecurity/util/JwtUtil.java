@@ -43,7 +43,7 @@ public class JwtUtil {
                     .withClaim("authorities", authorities)
     //                momento acuala en el que se genero el token
                     .withIssuedAt(new Date())
-                    .withExpiresAt(new Date (System.currentTimeMillis() + 60000))
+                    .withExpiresAt(new Date (System.currentTimeMillis() + 600000))
                     .withJWTId(UUID.randomUUID().toString())
     //                apartir de que fecha es valido el token
                     .withNotBefore(new Date(System.currentTimeMillis()))
