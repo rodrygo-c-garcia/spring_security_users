@@ -1,8 +1,14 @@
 package com.springsecurity.service.impl;
 
+import com.springsecurity.controller.dto.AuthLoginRequest;
+import com.springsecurity.controller.dto.AuthResponse;
 import com.springsecurity.persistence.entity.UserEntity;
 import com.springsecurity.persistence.repository.UserRepository;
+import com.springsecurity.util.JwtUtil;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -43,6 +49,26 @@ public class UserDetailServiceImpl implements UserDetailsService {
                 userEntity.isCredentialNoExpired(),
                 userEntity.isAccountNoLocked(),
                 listAuthorities);
+    }
+
+    public AuthResponse loginUser (AuthLoginRequest authLoginRequest) {
+        String username = authLoginRequest.username();
+        String password = authLoginRequest.password();
+
+        Authentication authentication = this.authenticate(username, password);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        String accessToken = jwtUtil.generateToken(authentication);
+        return new AuthResponse(username, "User authenticated", accessToken, true);
+    }
+
+    public Authentication authenticate(String username, String password) {
+        UserDetails userDetails = this.loadUserByUsername(username);
+
+        if(userDetails == null) {
+            throw new BadCredentialsException("Invalid username or password.");
+        }
+
     }
 }
 /*
