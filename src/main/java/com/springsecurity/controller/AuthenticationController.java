@@ -1,5 +1,6 @@
 package com.springsecurity.controller;
 
+import com.springsecurity.controller.dto.AuthCreateUserRequest;
 import com.springsecurity.controller.dto.AuthLoginRequest;
 import com.springsecurity.controller.dto.AuthResponse;
 import com.springsecurity.service.impl.UserDetailServiceImpl;
@@ -24,5 +25,11 @@ public class AuthenticationController {
     @PreAuthorize("permitAll()")
     public ResponseEntity<AuthResponse> login(@RequestBody @Valid AuthLoginRequest userRequest) {
         return new ResponseEntity<>(this.userDetailService.loginUser(userRequest), HttpStatus.OK);
+    }
+
+    @PostMapping("/sign-up")
+    @PreAuthorize("permitAll()")
+    public ResponseEntity<AuthResponse> register(@RequestBody @Valid AuthCreateUserRequest authCreateUser) {
+        return new ResponseEntity<>(this.userDetailService.createUser(authCreateUser), HttpStatus.CREATED);
     }
 }
