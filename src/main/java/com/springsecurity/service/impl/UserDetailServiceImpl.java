@@ -6,6 +6,7 @@ import com.springsecurity.persistence.entity.UserEntity;
 import com.springsecurity.persistence.repository.UserRepository;
 import com.springsecurity.util.JwtUtil;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -72,6 +73,11 @@ public class UserDetailServiceImpl implements UserDetailsService {
             throw new BadCredentialsException("Invalid username or password.");
         }
 
+        if(!passwordEncoder.matches(password, userDetails.getPassword())) {
+            throw new BadCredentialsException("Invalid password.");
+        }
+
+        return new UsernamePasswordAuthenticationToken(username, userDetails.getPassword(), userDetails.getAuthorities());
     }
 }
 /*
