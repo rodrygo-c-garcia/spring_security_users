@@ -2,7 +2,7 @@ package com.springsecurity;
 
 import com.springsecurity.persistence.entity.PermissionEntity;
 import com.springsecurity.persistence.entity.RoleEnum;
-import com.springsecurity.persistence.entity.RolesEntity;
+import com.springsecurity.persistence.entity.RoleEntity;
 import com.springsecurity.persistence.entity.UserEntity;
 import com.springsecurity.persistence.repository.UserRepository;
 import org.springframework.boot.CommandLineRunner;
@@ -31,20 +31,20 @@ public class SpringSecurityApplication {
             PermissionEntity deletePermission = PermissionEntity.builder().name("DELETE").build();
             PermissionEntity refactorPermission = PermissionEntity.builder().name("REFACTOR").build();
             // creamos los roles
-            RolesEntity adminRole = RolesEntity.builder()
+            RoleEntity adminRole = RoleEntity.builder()
                     .role(RoleEnum.ADMIN)
                     // Agregamos los permisos al rol
                     .permissions(Set.of(createPermission, readPermission, updatePermission, deletePermission))
                     .build();
-            RolesEntity userRole = RolesEntity.builder()
+            RoleEntity userRole = RoleEntity.builder()
                     .role(RoleEnum.USER)
                     .permissions(Set.of(createPermission, readPermission))
                     .build();
-            RolesEntity invitedRole = RolesEntity.builder()
+            RoleEntity invitedRole = RoleEntity.builder()
                     .role(RoleEnum.INVITED)
                     .permissions(Set.of(readPermission))
                     .build();
-            RolesEntity developerRole = RolesEntity.builder()
+            RoleEntity developerRole = RoleEntity.builder()
                     .role(RoleEnum.DEVELOPER)
                     .permissions(Set.of(createPermission, readPermission, updatePermission, deletePermission, refactorPermission))
                     .build();
