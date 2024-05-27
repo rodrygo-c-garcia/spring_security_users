@@ -1,8 +1,11 @@
 package com.springsecurity.service.impl;
 
+import com.springsecurity.controller.dto.AuthCreateUserRequest;
 import com.springsecurity.controller.dto.AuthLoginRequest;
 import com.springsecurity.controller.dto.AuthResponse;
+import com.springsecurity.persistence.entity.RoleEntity;
 import com.springsecurity.persistence.entity.UserEntity;
+import com.springsecurity.persistence.repository.RoleRepository;
 import com.springsecurity.persistence.repository.UserRepository;
 import com.springsecurity.util.JwtUtil;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -19,18 +22,22 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class UserDetailServiceImpl implements UserDetailsService {
     private final UserRepository userRepository;
     private final JwtUtil jwtUtil;
     private final PasswordEncoder passwordEncoder;
+    private final RoleRepository roleRepository;
 
     // inyeccion de dependencia
-    public UserDetailServiceImpl(UserRepository userRepository, JwtUtil jwtUtil, PasswordEncoder passwordEncoder) {
+    public UserDetailServiceImpl(UserRepository userRepository, JwtUtil jwtUtil, PasswordEncoder passwordEncoder, RoleRepository roleRepository) {
         this.userRepository = userRepository;
         this.jwtUtil = jwtUtil;
         this.passwordEncoder = passwordEncoder;
+        this.roleRepository = roleRepository;
     }
 
     @Override
