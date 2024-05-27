@@ -38,5 +38,5 @@ public class UserEntity implements Serializable {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     @JsonManagedReference
-    private Set<RolesEntity> roles = new HashSet<>();
+    private Set<RoleEntity> roles = new HashSet<>();
 }
