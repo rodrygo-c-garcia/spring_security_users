@@ -79,14 +79,45 @@ public class UserDetailServiceImpl implements UserDetailsService {
 
         return new UsernamePasswordAuthenticationToken(username, userDetails.getPassword(), userDetails.getAuthorities());
     }
+
+    public AuthResponse createUser(AuthCreateUserRequest authCreateUserRequest){
+        String username = authCreateUserRequest.username();
+        String password = authCreateUserRequest.password();
+        List<String> rolesList = authCreateUserRequest.roleCreateUser().roleListName();
+
+        Set<RoleEntity> roleEntityList = roleRepository.findRoleEntitiesByRoleIn(rolesList)
+                .stream()
+                .collect(Collectors.toSet());
+
+        if(roleEntityList.isEmpty()){
+            throw new IllegalArgumentException("Roles not found");
+        }
+
+        UserEntity userEntity = UserEntity.builder()
+                .username(username)
+                .password(passwordEncoder.encode(password))
+                .roles(roleEntityList)
+                .isEnable(true)
+                .accountNoLocked(true)
+                .accountNoExpired(true)
+                .credentialNoExpired(true)
+                .build();
+
+        UserEntity userCreated = userRepository.save(userEntity);
+        ArrayList<SimpleGrantedAuthority> authorityList = new ArrayList<>();
+
+        userCreated.getRoles().forEach(role -> authorityList.add(new SimpleGrantedAuthority("ROLE_".concat(role.getRole().name()))));
+
+        userCreated.getRoles()
+                .stream()
+                .flatMap(role -> role.getPermissions().stream())
+                .forEach(permission -> authorityList.add(new SimpleGrantedAuthority(permission.getName())));
+
+
+        Authentication authentication = new UsernamePasswordAuthenticationToken(userCreated, null, authorityList);
+        String token = jwtUtil.generateToken(authentication);
+        return new AuthResponse(userCreated.getUsername(), "User created", token, true);
+    }
+
 }
-/*
-* SELECT u.username, r.role_name, p.name AS permission_name
-* FROM users u
-* INNER JOIN users_roles ur ON u.id = ur.user_id
-* INNER JOIN roles r ON ur.role_id = r.id
-* INNER JOIN roles_permissions rp ON r.id = rp.role_id
-* INNER JOIN permissions p ON rp.permission_id = p.id;
-*
-*
-* */
+//SELECT u.username, r.role_name, p.name AS permission_name FROM users u INNER JOIN users_roles ur ON u.id = ur.user_id INNER JOIN roles r ON ur.role_id = r.id INNER JOIN roles_permissions rp ON r.id = rp.role_id INNER JOIN permissions p ON rp.permission_id = p.id;
