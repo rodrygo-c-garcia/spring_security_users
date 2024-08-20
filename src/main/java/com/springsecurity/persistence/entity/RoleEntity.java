@@ -20,11 +20,12 @@ public class RoleEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    // mapeando las enumeraciones
     @Column(name = "role_name")
     @Enumerated(EnumType.STRING)
     private RoleEnum role;
 
-    // relacion de muchos a muchos y esta entida es la dueña de la relacion
+    // relacion de muchos a muchos y esta entidad es la dueña de la relacion
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "roles_permissions",
             joinColumns = @JoinColumn(name = "role_id"),

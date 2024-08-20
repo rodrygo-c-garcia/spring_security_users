@@ -22,6 +22,8 @@ public class UserEntity implements Serializable {
 
     @Column(unique = true)
     private String username;
+
+    @Column(columnDefinition = "VARCHAR(20)")
     private String password;
 
     @Column(name = "is_enable")
@@ -33,6 +35,7 @@ public class UserEntity implements Serializable {
     @Column(name = "credential_no_expired")
     private boolean credentialNoExpired;
 
+    // muchos permisos pertenecen a muchos usuarios
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),
