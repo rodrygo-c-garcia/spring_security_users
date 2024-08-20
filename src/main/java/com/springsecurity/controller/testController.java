@@ -5,8 +5,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/test")
-
-// web securuty
+// web security
 @PreAuthorize("denyAll()")
 public class testController {
 

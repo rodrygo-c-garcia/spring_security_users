@@ -35,7 +35,7 @@ import java.util.List;
 public class SecurityConfigure {
 
     private JwtUtil jwtUtil;
-
+    // Injeccion de Dependencia
     public SecurityConfigure(JwtUtil jwtUtil) {
         this.jwtUtil = jwtUtil;
     }
@@ -62,13 +62,14 @@ public class SecurityConfigure {
                 .build();
     }*/
 
+    /*Estos son los filtros de cadena (Filter Chain)*/
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httppSecurity) throws Exception {
         // condiciones de seguridad
         return httppSecurity
                 .csrf(csrf -> csrf.disable())
-                .httpBasic(Customizer.withDefaults())
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .httpBasic(Customizer.withDefaults()) // habilitamos la autenticacion HTTP basica, Esto significa que las solicitudes HTTP que requieren autenticación deben incluir un encabezado Authorization con las credenciales codificadas en Base64.
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // no guarda la sesion en memoria
                 .addFilterBefore(new JwtTokenValidator(jwtUtil), BasicAuthenticationFilter.class)
                 .build();
     }
