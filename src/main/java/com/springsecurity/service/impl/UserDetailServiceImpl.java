@@ -42,9 +42,11 @@ public class UserDetailServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        // buscamos al usuario por su nombre
         UserEntity userEntity = userRepository.findUserEntityByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found " + username));
 
+        // se crea una lista de autoridades
         List<SimpleGrantedAuthority> listAuthorities = new ArrayList<>();
         // Se agregan los roles
         userEntity.getRoles().forEach(role -> listAuthorities.add(new SimpleGrantedAuthority("ROLE_".concat(role.getRole().name()))));

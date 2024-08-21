@@ -16,12 +16,13 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.Map;
 
+// utileria para JSON web token
 @Component
 public class JwtUtil {
     @Value("${security.jwt.key.private}")
     private String SECRETKEY;
 
-    @Value("${security.jwt.user.generator}")
+    @Value("${security.jwt.user.generator")
     private String userGeneratorToken;
 
     public String generateToken(Authentication authentication) {
@@ -30,6 +31,7 @@ public class JwtUtil {
             Algorithm algorithm = Algorithm.HMAC256(this.SECRETKEY);
     //        sujeto del token (usuario)
             String username = (String) authentication.getPrincipal();
+            // se obtiene las autoridades del usuario separadas por coma
             String authorities = authentication.getAuthorities().stream()
                     .map(grantedAuthority -> grantedAuthority.getAuthority())
                     .collect(Collectors.joining(","));
@@ -41,7 +43,7 @@ public class JwtUtil {
                     .withSubject(username)
     //                permisos que tiene el usuario (claims)
                     .withClaim("authorities", authorities)
-    //                momento acuala en el que se genero el token
+    //                momento actual en el que se genero el token
                     .withIssuedAt(new Date())
                     .withExpiresAt(new Date (System.currentTimeMillis() + 600000))
                     .withJWTId(UUID.randomUUID().toString())
@@ -58,7 +60,9 @@ public class JwtUtil {
 
     public DecodedJWT validateToken(String token) {
         try {
+            // necesita el secretkey para decodificar el token
             Algorithm algorithm = Algorithm.HMAC256(this.SECRETKEY);
+
             JWTVerifier  verifier = JWT.require(algorithm)
                     .withIssuer(this.userGeneratorToken)
                     .build();

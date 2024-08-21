@@ -92,8 +92,9 @@ public class SecurityConfigure {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-/*
-    public static void main(String[] args) {
+
+    /* public static void main(String[] args) {
+
         List<Integer> numeros = Arrays.asList(1, 2, 3, 4, 5);
 
         int sumaCuadradosPares = numeros.stream()
@@ -102,6 +103,20 @@ public class SecurityConfigure {
                 .reduce(0, Integer::sum); // Suma los cuadrados
         System.out.println("La suma de los cuadrados de los números pares es: " + sumaCuadradosPares);
 
-    }
-    */
+
+        List<String> names = Arrays.asList("John", "Jane", "Jack", "Doe");
+
+        names.stream() // Fuente de datos: List
+                .filter(name -> name.startsWith("J")) // Operación intermedia: Filtrar nombres que empiezan con "J"
+                .map(String::toUpperCase) // Operación intermedia: Convertir a mayúsculas
+                .sorted() // Operación intermedia: Ordenar
+                .forEach(System.out::println); // Operación terminal: Imprimir cada nombre
+
+        int numeros[] = {11, 1, 2, 3, 4, 5};
+
+        Arrays.stream(numeros)
+                .sorted()
+                .forEach(System.out::println);
+
+    }*/
 }

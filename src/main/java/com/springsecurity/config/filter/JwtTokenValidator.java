@@ -18,7 +18,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 import java.util.Collection;
-
+// Filtro de JWT por cada solicitud
 public class JwtTokenValidator extends OncePerRequestFilter {
     private JwtUtil jwtUtil;
 
@@ -28,7 +28,7 @@ public class JwtTokenValidator extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain) throws ServletException, IOException {
-        String jwtToken = request.getHeader(HttpHeaders.AUTHORIZATION);
+        String jwtToken = request.getHeader(HttpHeaders.AUTHORIZATION); // obtener el jwt token del header (request)
 
         if (jwtToken != null ) {
 //            eliminamos el prefijo Bearer
@@ -39,13 +39,19 @@ public class JwtTokenValidator extends OncePerRequestFilter {
             String username = jwtUtil.extractUsername(decodedJWT);
             String stringAuthorities = jwtUtil.getSpecificClaim(decodedJWT, "authorities").toString();
 
+            // lista de autorizaciones por comas
             Collection<? extends GrantedAuthority> listAuthorities = AuthorityUtils.commaSeparatedStringToAuthorityList(stringAuthorities);
 
-            SecurityContext securityContext = SecurityContextHolder.getContext();
+            // setear el usuario en el Context Holder
+            SecurityContext securityContext = SecurityContextHolder.getContext(); // extraer el contexto de spring
+            // instanciamos el nuevo usuario verificado correctamente
             Authentication userAuthentication = new UsernamePasswordAuthenticationToken(username, null, listAuthorities);
+
+            // dar acceso al usuario (agregar en el context holder)
             securityContext.setAuthentication(userAuthentication);
             SecurityContextHolder.setContext(securityContext);
         }
+        // si el token no es enviado, pasa al siguiente filtro, por defecto el token es rechazado
         filterChain.doFilter(request, response);
     }
 }

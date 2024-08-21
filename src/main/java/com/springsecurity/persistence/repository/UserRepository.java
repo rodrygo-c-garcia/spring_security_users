@@ -8,6 +8,6 @@ import java.util.Optional;
 
 @Repository
 public interface UserRepository extends CrudRepository<UserEntity, Long> {
-    // Method Query --- crea la setencia SQL a partir del nombre del método
+    // Query Method--- crea la setencia SQL a partir del nombre del método
     Optional<UserEntity> findUserEntityByUsername(String username);
 }
