@@ -26,7 +26,7 @@ public class RoleEntity {
     private RoleEnum role;
 
     // relacion de muchos a muchos y esta entidad es la dueña de la relacion
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, targetEntity = PermissionEntity.class)
     @JoinTable(name = "roles_permissions",
             joinColumns = @JoinColumn(name = "role_id"),
             inverseJoinColumns = @JoinColumn(name = "permission_id"))
