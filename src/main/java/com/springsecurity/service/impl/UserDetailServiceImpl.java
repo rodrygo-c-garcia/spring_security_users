@@ -78,9 +78,10 @@ public class UserDetailServiceImpl implements UserDetailsService {
     public Authentication authenticate(String username, String password) {
         UserDetails userDetails = this.loadUserByUsername(username);
 
-        if(userDetails == null) {
+        if(userDetails == null) { // usuario no existe en la BD
             throw new BadCredentialsException("Invalid username or password.");
         }
+
 
         if(!passwordEncoder.matches(password, userDetails.getPassword())) {
             throw new BadCredentialsException("Invalid password.");

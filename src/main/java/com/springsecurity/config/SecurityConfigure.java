@@ -70,7 +70,7 @@ public class SecurityConfigure {
                 .csrf(csrf -> csrf.disable())
                 .httpBasic(Customizer.withDefaults()) // habilitamos la autenticacion HTTP basica, Esto significa que las solicitudes HTTP que requieren autenticación deben incluir un encabezado Authorization con las credenciales codificadas en Base64.
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // no guarda la sesion en memoria
-                .addFilterBefore(new JwtTokenValidator(jwtUtil), BasicAuthenticationFilter.class)
+                .addFilterBefore(new JwtTokenValidator(jwtUtil), BasicAuthenticationFilter.class) // agregamos el filtro de JWT
                 .build();
     }
 
