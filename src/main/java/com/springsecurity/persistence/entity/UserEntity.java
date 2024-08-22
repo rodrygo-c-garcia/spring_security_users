@@ -23,7 +23,7 @@ public class UserEntity implements Serializable {
     @Column(unique = true)
     private String username;
 
-    @Column(columnDefinition = "VARCHAR(20)")
+    @Column(columnDefinition = "VARCHAR(100)")
     private String password;
 
     @Column(name = "is_enable")
