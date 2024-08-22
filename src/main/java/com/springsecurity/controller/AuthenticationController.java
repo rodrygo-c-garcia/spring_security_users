@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @PreAuthorize("denyAll()")
 public class AuthenticationController {
 
-    private UserDetailServiceImpl userDetailService;
+    private final UserDetailServiceImpl userDetailService;
 
     public AuthenticationController(UserDetailServiceImpl userDetailService) {
         this.userDetailService = userDetailService;
